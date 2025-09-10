@@ -43,7 +43,33 @@ authenticator = stauth.Authenticate(
     cookie_key=os.getenv("PORTAL_COOKIE_KEY","supersecret"),
     cookie_expiry_days=14
 )
-name, auth_status, username = authenticator.login("Login", location="main")
+# ---- Compatible login call (handles multiple authenticator versions) ----
+try:
+    login_result = authenticator.login("Login", location="main")
+except TypeError:
+    # older versions expect positional 'location'
+    login_result = authenticator.login("Login", "main")
+
+# Unpack flexibly (some versions return 3-tuple, some 2-tuple or dict)
+name = None
+auth_status = None
+username = None
+
+if isinstance(login_result, tuple):
+    if len(login_result) == 3:
+        name, auth_status, username = login_result
+    elif len(login_result) == 2:
+        name, auth_status = login_result
+else:
+    # possible dict shape
+    try:
+        name = login_result.get("name")
+        auth_status = login_result.get("authentication_status") or login_result.get("status")
+        username = login_result.get("username")
+    except Exception:
+        pass
+# ------------------------------------------------------------------------
+
 
 def expired(iso):
     if not iso: return False
