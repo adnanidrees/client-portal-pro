@@ -1,0 +1,4 @@
+packages:
+  Starter: ["reels","captions"]
+  Business: ["reels","seo","broadcast"]
+  Agency: ["reels","seo","broadcast","crm","adbuilder","review","upsell","invoice","tracking","salesbot","captions"]

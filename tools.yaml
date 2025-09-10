@@ -1,0 +1,5 @@
+tools:
+  reels:
+    name: ReelForge Pro
+    url: https://youruser-reelforge-pro.streamlit.app
+    desc: AI reels (script+TTS+stock)
