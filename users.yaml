@@ -2,7 +2,7 @@
   users:
     - username: "owner"
       name: "Owner Admin"
-      password: "$2b$12$0CKOrG4u935IeC16wxsMVe07dobnVo/NZUWrEfCkWICZdxUwMnWQu"
+      password: "$2b$12$QbZxq4Bc/6JsoM8GRC3egOMJPzISAxyk40rLR8WmRi16ydVePA4S."
       allowed_tools: ["reels","seo","broadcast","crm","adbuilder","review","upsell","invoice","tracking","salesbot","captions"]
       active: true
       expires_at: "2099-12-31"
