@@ -1,8 +1,8 @@
-credentials:
+  credentials:
   users:
     - username: "owner"
       name: "Owner Admin"
-      password: "ADMIN123"
+      password: "$2b$12$0CKOrG4u935IeC16wxsMVe07dobnVo/NZUWrEfCkWICZdxUwMnWQu"
       allowed_tools: ["reels","seo","broadcast","crm","adbuilder","review","upsell","invoice","tracking","salesbot","captions"]
       active: true
       expires_at: "2099-12-31"
