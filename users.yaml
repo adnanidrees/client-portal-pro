@@ -2,7 +2,7 @@ credentials:
   users:
     - username: "owner"
       name: "Owner Admin"
-      password: "$2b$12$...YAHAN_HASH_PASTE..."
+      password: "ADMIN123"
       allowed_tools: ["reels","seo","broadcast","crm","adbuilder","review","upsell","invoice","tracking","salesbot","captions"]
       active: true
       expires_at: "2099-12-31"
