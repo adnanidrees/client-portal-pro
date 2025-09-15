@@ -108,7 +108,7 @@ st.divider()
 st.write(f"**Package:** {pkg or '—'}  |  **Active:** {row.get('active', True)}  |  **Expires:** {row.get('expires_at') or '—'}")
 
 # ---------- Admin Panel ----------
-admins = [x.strip() for x in os.getenv("ADMIN_USERS","").split(",") if x.strip()]
+admins = [x.strip() for x in os.getenv("ADMIN_USERS","owner").split(",") if x.strip()]
 if username in admins:
     st.markdown("---")
     st.subheader("🛠️ Admin Panel")
