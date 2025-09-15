@@ -1,5 +1,9 @@
 tools:
   reels:
-    name: ReelForge Pro
-    url: https://reelforge-pro-pjozsvptayvprwpa3ocgzk.streamlit.app/
-    desc: AI reels (script+TTS+stock)
+    name: "ReelForge Pro"
+    url: "https://reelforge-pro-pjozsvptayvprwpa3ocgzk.streamlit.app/"
+    desc: "AI reels (script + brand box)."
+  broadcast:
+    name: "WhatsApp Broadcast"
+    url: "https://wa-broadcast-pro-vskju8vlegzdjngqvxlrgn.streamlit.app/"
+    desc: "Template sends (Cloud API)."
