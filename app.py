@@ -5,6 +5,16 @@ from pathlib import Path
 st.set_page_config(page_title="TickCom Client Portal", page_icon="🗝️", layout="wide")
 st.title("🗝️ TickCom Client Portal")
 
+# ---------- Safe rerun (new & old Streamlit compatible) ----------
+def safe_rerun():
+    try:
+        if hasattr(st, "rerun"):
+            st.rerun()
+        else:
+            st.experimental_rerun()
+    except Exception:
+        st.stop()
+
 # ---------- Helpers ----------
 def load_yaml(p, default):
     p = Path(p)
@@ -32,11 +42,21 @@ if not user_rows:
     st.warning("⚠️ users.yaml me kam se kam ek user add karein."); st.stop()
 
 def find_user(username):
-    return next((u for u in user_rows if u.get("username")==username), None)
+    # case-insensitive, trimmed match
+    uname = (username or "").strip().lower()
+    for u in user_rows:
+        if (u.get("username","").strip().lower() == uname):
+            return u
+    return None
 
 def check_password(p_plain: str, p_hash: str) -> bool:
     try:
-        return bcrypt.checkpw(p_plain.encode("utf-8"), p_hash.encode("utf-8"))
+        # bcrypt hash (preferred)
+        if (p_hash or "").startswith("$2"):
+            return bcrypt.checkpw((p_plain or "").strip().encode("utf-8"),
+                                  (p_hash or "").strip().encode("utf-8"))
+        # fallback: allow plaintext (legacy/testing only)
+        return (p_plain or "").strip() == (p_hash or "").strip()
     except Exception:
         return False
 
@@ -50,10 +70,10 @@ def login_form():
         row = find_user(u)
         if row and row.get("password") and check_password(p, row["password"]):
             st.session_state["auth"] = True
-            st.session_state["username"] = u
+            st.session_state["username"] = (u or "").strip()
             st.session_state["name"] = row.get("name", u)
             st.success("Logged in. Redirecting…")
-            st.experimental_rerun()
+            safe_rerun()
         else:
             st.error("Invalid username/password.")
 
@@ -75,7 +95,7 @@ if expired(row.get("expires_at")):
 # Logout
 if st.sidebar.button("Logout"):
     st.session_state.clear()
-    st.experimental_rerun()
+    safe_rerun()
 st.sidebar.success(f"Logged in as {name}")
 
 # ---------- Tools visible ----------
@@ -131,7 +151,7 @@ if username in admins:
             new_users.append({
                 "username":    r["username"],
                 "name":        r.get("name") or r["username"],
-                "password":    old.get("password",""),   # password yahin se preserve hota rahega
+                "password":    old.get("password",""),   # password preserve
                 "package":     r.get("package") or None,
                 "allowed_tools": atools,
                 "active":      bool(r.get("active", True)),
